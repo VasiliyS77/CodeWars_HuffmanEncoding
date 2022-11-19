@@ -9,6 +9,30 @@ class Node:
         self.left = None
         self.right = None
 
+    def __eq__(self, other):
+        """
+        Сравнение объектов <Node> на равенство
+        """
+        return self.weight == other.weight
+
+    def __ne__(self, other):
+        """
+        Сравнение объектов <Node> на неравенство
+        """
+        return self.weight != other.weight
+
+    def __lt__(self, other):
+        """
+        Сравнение объектов <Node> на меньше
+        """
+        return self.weight < other.weight
+
+    def __gt__(self, other):
+        """
+        Сравнение объектов <Node> на больше
+        """
+        return self.weight > other.weight
+
 
 class HTree:
     """Класс Дерево для генерации кода Хаффмана"""
