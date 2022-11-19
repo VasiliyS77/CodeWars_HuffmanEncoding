@@ -141,6 +141,27 @@ class HTree:
         """
         return self.encode_table.get(c)
 
+    def decode_str(self, bits: str):
+        """
+         Функция декодирования строки бит в текст по дереву
+        bits: закодированный текст
+        """
+        decoded_str = ""
+        while bits:
+            # Закодированный символ
+            ch = ""
+            # Начинаем обход с корня H-дерева
+            current_node = self.root
+            while len(current_node.chars) > 1:
+                if bits[0] == "0":
+                    current_node = current_node.left
+                else:
+                    current_node = current_node.right
+                ch += bits[0]
+                bits = bits[1:]
+            decoded_str += current_node.chars
+        return decoded_str
+
 
 def frequencies(s: str) -> list[tuple[str, int]]:
     """
@@ -183,10 +204,36 @@ def encode(freq: list[tuple[str, int]], s: str):
     return h_code
 
 
+def decode(freq: list[tuple[str, int]], bits: str):
+    """
+    Функция декодирования строки бит в текст (код Хаффмана)
+    freq: список частоты вхождения символов в тексте
+    bits: закодированный текст
+    результат: текст
+    """
+    # Если в таблице частотности один или меньше символов, то выход
+    if len(freq) <= 1:
+        return None
+    # Создаем H-дерево
+    h_t = HTree()
+    h_t.create_tree(freq)
+    # Декодируем входную строку бит
+    text = h_t.decode_str(bits)
+    return text
+
+
 test = 'ааааааааааааааабббббббввввввггггггддддд'
 # test = 'aaaabcc'
 # test = 'aabacdab'
 # test = 'Huffman coding is a data compression algorithm.'
+
+print("Исходная строка:")
+print(test)
 fq = frequencies(test)
 print(fq)
-print(encode(fq, test))
+encoded_text = encode(fq, test)
+print(encoded_text)
+print()
+print("Декодируем:")
+decoded_text = decode(fq, encoded_text)
+print(decoded_text)
