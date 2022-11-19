@@ -12,18 +12,6 @@ class Node:
         self.left = None
         self.right = None
 
-    def __eq__(self, other):
-        """
-        Сравнение объектов <Node> на равенство
-        """
-        return self.weight == other.weight
-
-    def __ne__(self, other):
-        """
-        Сравнение объектов <Node> на неравенство
-        """
-        return self.weight != other.weight
-
     def __lt__(self, other):
         """
         Сравнение объектов <Node> на меньше
@@ -52,12 +40,8 @@ class HTree:
         """
         # Список свободных узлов.
         # Создается как приоритетная очередь
-        # free_leaves = []
         free_leaves = [Node(v, w) for v, w in freq]
         heapify(free_leaves)
-        # for it in freq:
-        #     leaf = Node(it[0], it[1])
-        #     heappush(free_leaves, leaf)
         # Итерационно заполняем дерево пока в списке свободных узлов не останется один узел (корень)
         while len(free_leaves) > 1:
             # Выбираются два свободных узла дерева с наименьшими весами
@@ -75,35 +59,6 @@ class HTree:
         self.root = free_leaves[0]
         # Создание таблицы кодировки
         self.__h_tree_to_table__(freq)
-
-    # def __find_min_items_indexis__(self, nodes_list: list) -> tuple[int, int]:
-    #     """
-    #     Возвращает индексы двух минимальных элементов списка
-    #     nodes_list: список вида list<Node>
-    #     : результат кортеж значений индексов
-    #     """
-    #     weights = [it.weight for it in nodes_list]
-    #     min_index = len(weights) - 1
-    #     min_val = weights[-1]
-    #     for i in range(len(weights) - 1, -1, -1):
-    #         if weights[i] < min_val:
-    #             min_val = weights[i]
-    #             min_index = i
-    #     min_1_index = min_index
-    #
-    #     min_index = len(weights) - 1
-    #     if min_index == min_1_index:
-    #         min_index = len(weights) - 2
-    #     min_val = weights[min_index]
-    #     for i in range(len(weights) - 1, -1, -1):
-    #         if i == min_1_index:
-    #             continue
-    #         if weights[i] < min_val:
-    #             min_val = weights[i]
-    #             min_index = i
-    #     min_2_index = min_index
-    #     # res = tuple(sorted([min_2_index, min_1_index]))
-    #     return min_2_index, min_1_index
 
     def __h_tree_to_table__(self, freq: list[tuple[str, int]]):
         """
